@@ -1,8 +1,5 @@
 package com.amama.msBankAccount.service;
 
-import java.util.Date;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +22,24 @@ public class BankAccountServiceImpl implements BankAccountService{
 		BankAccount saveBankAccount= bankAccountRepository.save(bankAccountMapper.toBankAccount(bankAccountRequestDTO));
 		BankAccountResponseDTO bankAccountResponseDTO =bankAccountMapper.fromBankAccount(saveBankAccount);
 		return bankAccountResponseDTO;
+	}
+	@Override
+	public BankAccountResponseDTO updateAccount(String id, BankAccountRequestDTO bankAccountRequestDTO) {
+		BankAccount updatedBankAccount= bankAccountRepository.findById(id).orElseThrow(()->new RuntimeException(String.format("ID %s not found",id)));	
+		if(updatedBankAccount != null) {
+			updatedBankAccount.setBalance(bankAccountRequestDTO.getBalance());
+			updatedBankAccount.setType(bankAccountRequestDTO.getType());
+			updatedBankAccount.setCurrency(bankAccountRequestDTO.getCurrency());
+		}
+		
+		return bankAccountMapper.fromBankAccount(bankAccountRepository.save(updatedBankAccount));
+		 
+	}
+	@Override
+	public boolean deleteAccount(String id) {
+		// TODO Auto-generated method stub
+		 bankAccountRepository.deleteById(id);
+		 return true;
 	}
 
 	

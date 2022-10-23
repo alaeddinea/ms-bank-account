@@ -1,14 +1,12 @@
 package com.amama.msBankAccount.entity;
 
 import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-
+import javax.persistence.ManyToOne;
 import com.amama.msBankAccount.entity.enums.AccountType;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,4 +24,6 @@ private double balance;
 private String currency;
 @Enumerated(EnumType.STRING)
 private AccountType type;
+@ManyToOne
+private Customer customer;
 }

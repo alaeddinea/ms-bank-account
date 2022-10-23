@@ -1,0 +1,39 @@
+# type Query use for Get query
+type Query{ 
+	accountsList : [BankAccount],
+	accountById(id :String) : BankAccount,
+	customerList : [Customer]
+}
+
+# type mutation use for [Post, Put, Delete] query
+type Mutation{  
+ addAccount (bankAccountRequestDTO : BankAccountRequestDTO) : BankAccountResponseDTO
+ updateAccount (id :String ,bankAccountRequestDTO : BankAccountRequestDTO) : BankAccountResponseDTO
+ deleteAccount(id :String ) : Boolean
+ }
+type BankAccount{
+	id: String,
+	createdDate : Float,
+	balance :Float,
+	currency :String,
+	type: String
+	customer :Customer
+}
+input BankAccountRequestDTO{
+	balance :Float,
+	currency :String,
+	type: String
+	
+}
+type BankAccountResponseDTO{
+	id: String,
+	createdDate : String,
+	balance :Float,
+	currency :String,
+	type: String
+}
+type Customer{
+	id: ID,
+	name : String,
+	bankAccounts :[BankAccount]
+}

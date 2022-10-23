@@ -4,6 +4,7 @@ package com.amama.msBankAccount;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,8 +12,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.amama.msBankAccount.entity.BankAccount;
+import com.amama.msBankAccount.entity.Customer;
 import com.amama.msBankAccount.entity.enums.AccountType;
 import com.amama.msBankAccount.repository.BankAccountRepository;
+import com.amama.msBankAccount.repository.CustomerRepository;
 
 @SpringBootApplication
 public class MsBankAccountApplication {
@@ -20,20 +23,25 @@ public class MsBankAccountApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MsBankAccountApplication.class, args);
 	}
+
 	@Bean
-CommandLineRunner star(BankAccountRepository bankAccountRepository) {
-	return  args -> {
-		for (int i = 0; i < 10; i++) {
-			BankAccount bankAccount=BankAccount.builder()
-					.id(UUID.randomUUID().toString())
-					.type(Math.random()>0.5 ?AccountType.CURRENT_ACCOUNT:AccountType.SAVING_ACOUNT)
-					.balance(1000+Math.random()*90000)
-					.createdDate(new Date())
-					.currency(i>5?"DT":"EURO")
-					.build();
-					
-			bankAccountRepository.save(bankAccount);
-		}
-	};
-}
+	CommandLineRunner star(BankAccountRepository bankAccountRepository, CustomerRepository customerRepository) {
+		return args -> {
+			Stream.of("Mohamed", "Yassin", "Hana", "Imene").forEach(n -> {
+				Customer customer = Customer.builder().name(n).build();
+				customerRepository.save(customer);
+			});
+			customerRepository.findAll().forEach(customer -> {
+				for (int i = 0; i < 10; i++) {
+					BankAccount bankAccount = BankAccount.builder().id(UUID.randomUUID().toString())
+							.type(Math.random() > 0.5 ? AccountType.CURRENT_ACCOUNT : AccountType.SAVING_ACOUNT)
+							.balance(1000 + Math.random() * 90000).createdDate(new Date())
+							.currency(i > 5 ? "DT" : "EURO").customer(customer).build();
+
+					bankAccountRepository.save(bankAccount);
+				}
+			});
+
+		};
+	}
 }

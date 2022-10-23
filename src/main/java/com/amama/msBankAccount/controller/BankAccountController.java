@@ -1,9 +1,7 @@
 package com.amama.msBankAccount.controller;
 
 import java.util.List;
-import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,12 +42,12 @@ public class BankAccountController {
 	public BankAccountResponseDTO save(@RequestBody BankAccountRequestDTO bankAccountRequestDTO ){
 		return  bankAccountServiceImpl.addAccount(bankAccountRequestDTO);
 	}
-	@PutMapping("/")
-	public BankAccount update(@RequestBody BankAccount bankAccount){
-		return  bankAccountRepository.save(bankAccount);
+	@PutMapping("/{id}")
+	public BankAccountResponseDTO update(@PathVariable  String id,@RequestBody BankAccountRequestDTO bankAccountRequestDTO ){
+		return  bankAccountServiceImpl.updateAccount(id,bankAccountRequestDTO);
 	}
 	@DeleteMapping("/{id}")
 	public void dalete(@PathVariable String id){
-		  bankAccountRepository.deleteById(id);
+		bankAccountServiceImpl.deleteAccount(id);
 	}
 }
