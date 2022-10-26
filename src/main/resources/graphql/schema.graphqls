@@ -12,12 +12,15 @@ type Mutation{
  deleteAccount(id :String ) : Boolean
  }
 type BankAccount{
-	id: String,
-	createdDate : Float,
+	id: ID!,
 	balance :Float,
 	currency :String,
-	type: String
+	type: String,
 	customer :Customer
+	createdBy: String,
+	createdDate: String,
+	lastModifiedBy: String,
+	lastModifiedDate: String,
 }
 input BankAccountRequestDTO{
 	balance :Float,
@@ -33,7 +36,7 @@ type BankAccountResponseDTO{
 	type: String
 }
 type Customer{
-	id: ID,
+	id: ID!,
 	name : String,
 	bankAccounts :[BankAccount]
 }

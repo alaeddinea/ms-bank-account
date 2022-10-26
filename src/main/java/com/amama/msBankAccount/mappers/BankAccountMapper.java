@@ -21,7 +21,6 @@ public BankAccount toBankAccount(BankAccountRequestDTO bankAccountRequestDTO ) {
 	BankAccount bankAccount=BankAccount.builder()
 			.id(UUID.randomUUID().toString())
 			.balance(bankAccountRequestDTO.getBalance())
-			.createdDate(new Date())
 			.type(bankAccountRequestDTO.getType())
 			.currency(bankAccountRequestDTO.getCurrency())
 			.build();
